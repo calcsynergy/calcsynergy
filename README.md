@@ -41,6 +41,7 @@ Release 0.1.0 contains next archives:
 - Engine binary archives for Windows and Linux
 - C++ SDK binary archives for Windows and Linux
 - Python SDK archive
+
 Release 0.2.0. C# SDK has been added. It contains next archives:
 - Director binary archives for Windows and Linux
 - Engine binary archives for Windows and Linux
