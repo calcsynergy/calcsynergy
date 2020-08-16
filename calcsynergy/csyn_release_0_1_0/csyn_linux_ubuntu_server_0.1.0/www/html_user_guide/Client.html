@@ -1,0 +1,348 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSyn Client &#8212; CSyn User Guide 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CSyn Engine Service" href="Engine.html" />
+    <link rel="prev" title="CSyn Overview" href="Overview.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="csyn-client">
+<h1><strong>CSyn Client</strong><a class="headerlink" href="#csyn-client" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>CSyn client supports a request-response service model for managing different data components inclusive of modules, kernels and executing related tasks. CSyn runtime environment receives client requests and services them in parallel. Each client request is independent and generally arrives unpredictably at varying points in time.</div></blockquote>
+</div>
+<div class="section" id="data-model">
+<h2><strong>Data Model</strong><a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module">
+<h3><strong>Module</strong><a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>CUDA module is dynamically loadable packages of GPU code and data, that are output of an NVCC CUDA compiler
+(see&nbsp;<a class="reference external" href="https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html">Compilation with NVCC</a>).
+CSyn supports three type of CUDA modules:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Assembly compiled in PTX code</li>
+<li>Assembly compiled as binary cubin file</li>
+<li>Assembly compiled as fatCubin file</li>
+</ul>
+</div></blockquote>
+<p>The assembly code must be compatible with CSyn GPU devices compute capability architectures.
+CSyn Module component defines CUDA modules that can be used by runtime environment. Shared storage device with direct access for every CSyn engine and director must be used to save CUDA modules.
+CSyn Module contains next properties:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Module name</p>
+</li>
+<li><p class="first">Module version</p>
+</li>
+<li><p class="first">Module Description</p>
+</li>
+<li><p class="first">Module type</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>defines system module type. System modules are incorporated in CSyn and can be used as soon as system installed and configurate</li>
+<li>defines custom module with assembly compiled as binary fatCubin object</li>
+<li>defines custom module with assembly compiled as binary cubin object or PTX code</li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="kernel">
+<h3><strong>Kernel</strong><a class="headerlink" href="#kernel" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>CSyn Kernel component defines CUDA kernel functions provided by specific modules. User can create instances of Kernel objects,
+provide Kernel parameters values and execute accordingly.
+CSyn Kernel contains the following next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Module name</li>
+<li>Module version</li>
+<li>Module type</li>
+<li>Kernel name</li>
+<li>Kernel description</li>
+<li>List of Parameter objects</li>
+</ul>
+</div></blockquote>
+<p>CSyn Parameter component specifies kernel parameter.
+It contains the following next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Parameter name</li>
+<li>Parameter description</li>
+<li>Parameter data type</li>
+<li>Parameter type</li>
+<li>Parameter order</li>
+<li>Parameter Value object or global value name</li>
+</ul>
+</div></blockquote>
+<p>CSyn supports the following next Parameter data types:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Char</li>
+<li>Int32</li>
+<li>Int64</li>
+<li>Float</li>
+<li>Double</li>
+<li>String</li>
+<li>Char Array</li>
+<li>Int32 Array</li>
+<li>Int64 Array</li>
+<li>Float Array</li>
+<li>Double Array</li>
+</ul>
+</div></blockquote>
+<p>CSyn supports the following next Parameter type:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Input parameter</li>
+<li>Output parameter</li>
+<li>Input/Output parameter</li>
+</ul>
+</div></blockquote>
+<p>CSyn Value component contains Parameter data. Global value name define reference to shared      list of Value components.</p>
+</div></blockquote>
+</div>
+<div class="section" id="job">
+<h3><strong>Job</strong><a class="headerlink" href="#job" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>CSyn Job component defines overall workload request to execute by runtime environment.
+CSyn Job contains next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Job Name</li>
+<li>List of Property objects</li>
+<li>List of Task objects</li>
+<li>List of global values shared by tasks</li>
+</ul>
+</div></blockquote>
+<p>CSyn Task component specifies specific kernel to be execute as part of Job.
+CSyn Task contains next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Task Name</li>
+<li>Kernel object with established parameter values</li>
+</ul>
+</div></blockquote>
+<p>CSyn JobResult component defines job execution results. C
+Syn JobResult contains next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Job Name</li>
+<li>Job universally unique identifier (UUID)</li>
+<li>List of TaskReasult objects</li>
+</ul>
+</div></blockquote>
+<p>CSyn TaskResult component defines task execution results.
+CSyn TaskResult contains next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Task Name</li>
+<li>Task UUID</li>
+<li>List of kernel output type Parameter objects</li>
+</ul>
+</div></blockquote>
+<p>CSyn JobStatus component defines job execution status. C
+Syn JobStatus contains next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Job Name</li>
+<li>Job UUID</li>
+<li>Job start time</li>
+<li>Job end time</li>
+<li>Job execution time interval</li>
+<li>Job execution status</li>
+<li>Job execution error</li>
+<li>List of TaskStatus objects</li>
+</ul>
+</div></blockquote>
+<p>CSyn TaskStatus component defines task execution status. C
+Syn TaskStatus contains next properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Task Name</li>
+<li>Task UUID</li>
+<li>Task start time</li>
+<li>Task execution time interval</li>
+<li>Task execution status</li>
+<li>Task execution error</li>
+</ul>
+</div></blockquote>
+<p>CSyn Property component defines job properties. CSyn defines next job properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Sequential property set up sequential task execution order. By default all job tasks are executed in parallel</li>
+<li>MaxRunTime property set up job max execution time. By default will be used job max execution time from CSyn Director configuration.</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="programming-model">
+<h2><strong>Programming model</strong><a class="headerlink" href="#programming-model" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>CSyn runtime environment service provides next list of activities:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Get list of available modules</li>
+<li>Get list of kernels for specific module</li>
+<li>Get specific kernel</li>
+<li>Execute job; This call return job result when job execution will be finished</li>
+<li>Execute job asynchronously; This call return job status when job execution will be started</li>
+<li>Get job execution status</li>
+<li>Get job execution result</li>
+<li>Create list of kernels</li>
+<li>Remove list of kernels</li>
+<li>Remove specific kernel</li>
+<li>Create cubin custom module and upload compiled CUDA PTX or binary cubin file</li>
+<li>Create fatcubin custom module and upload compiled CUDA fatcubin file</li>
+<li>Remove custom module</li>
+</ul>
+</div></blockquote>
+<p>Following describe job execution step sequence:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Create Job component</li>
+<li>Get Kernel component from CSyn runtime environment</li>
+<li>Set up Kennel input parameters values</li>
+<li>Create Task component for Kernel and add it to Job</li>
+<li>Repeat steps 2,4,5 to create complete set of Tasks</li>
+<li>Execute Job and receive JobResult component</li>
+</ul>
+</div></blockquote>
+<p>Following describe job asynchronously execution step sequence:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Create Job</li>
+<li>Load Kernel from CSyn runtime environment</li>
+<li>Set Kernel input parameter values</li>
+<li>Create Task for Kernel and add it to Job</li>
+<li>By repeating steps 2,4,5 create complete set of Tasks</li>
+<li>Execute Job asynchronously</li>
+<li>Get JobStatus</li>
+<li>If Job execution in progress repeat step 7</li>
+<li>Get JobResult</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">CSyn User Guide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html"><strong>CSyn Overview</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>CSyn Client</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction"><strong>Introduction</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-model"><strong>Data Model</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module"><strong>Module</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kernel"><strong>Kernel</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#job"><strong>Job</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#programming-model"><strong>Programming model</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Engine.html"><strong>CSyn Engine Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Director.html"><strong>CSyn Director Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CPPClient.html"><strong>CSyn C++ Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonClient.html"><strong>CSyn Python Client</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Overview.html" title="previous chapter"><strong>CSyn Overview</strong></a></li>
+      <li>Next: <a href="Engine.html" title="next chapter"><strong>CSyn Engine Service</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Calculation Synergy team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Client.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

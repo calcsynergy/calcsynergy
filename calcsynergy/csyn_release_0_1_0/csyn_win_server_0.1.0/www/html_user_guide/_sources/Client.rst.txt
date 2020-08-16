@@ -1,0 +1,189 @@
+===============
+**CSyn Client**
+===============
+
+   
+----------------
+**Introduction**
+----------------
+
+	CSyn client supports a request-response service model for managing different data components inclusive of modules, kernels and executing related tasks. CSyn runtime environment receives client requests and services them in parallel. Each client request is independent and generally arrives unpredictably at varying points in time. 
+
+--------------
+**Data Model**
+--------------
+
+^^^^^^^^^^
+**Module**
+^^^^^^^^^^
+
+	CUDA module is dynamically loadable packages of GPU code and data, that are output of an NVCC CUDA compiler 
+	(see `Compilation with NVCC <https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html>`_).  
+	CSyn supports three type of CUDA modules:
+	
+		* Assembly compiled in PTX code
+		* Assembly compiled as binary cubin file
+		* Assembly compiled as fatCubin file
+
+	The assembly code must be compatible with CSyn GPU devices compute capability architectures. 
+	CSyn Module component defines CUDA modules that can be used by runtime environment. Shared storage device with direct access for every CSyn engine and director must be used to save CUDA modules.
+	CSyn Module contains next properties:
+
+		* Module name
+		* Module version
+		* Module Description
+		* Module type
+
+			#. defines system module type. System modules are incorporated in CSyn and can be used as soon as system installed and configurate
+			#. defines custom module with assembly compiled as binary fatCubin object
+			#. defines custom module with assembly compiled as binary cubin object or PTX code
+
+^^^^^^^^^^
+**Kernel**
+^^^^^^^^^^
+
+	CSyn Kernel component defines CUDA kernel functions provided by specific modules. User can create instances of Kernel objects, 
+	provide Kernel parameters values and execute accordingly. 
+	CSyn Kernel contains the following next properties:
+	
+		* Module name
+		* Module version
+		* Module type
+		* Kernel name
+		* Kernel description
+		* List of Parameter objects
+
+	CSyn Parameter component specifies kernel parameter. 
+	It contains the following next properties:
+	
+		* Parameter name
+		* Parameter description
+		* Parameter data type
+		* Parameter type
+		* Parameter order
+		* Parameter Value object or global value name
+
+	CSyn supports the following next Parameter data types:
+	
+		* Char
+		* Int32
+		* Int64
+		* Float
+		* Double
+		* String
+		* Char Array
+		* Int32 Array
+		* Int64 Array
+		* Float Array
+		* Double Array
+
+	CSyn supports the following next Parameter type:
+	
+		* Input parameter
+		* Output parameter
+		* Input/Output parameter
+
+
+
+	CSyn Value component contains Parameter data. Global value name define reference to shared	list of Value components.
+
+^^^^^^^
+**Job**
+^^^^^^^
+
+	CSyn Job component defines overall workload request to execute by runtime environment. 
+	CSyn Job contains next properties:
+	
+		* Job Name
+		* List of Property objects
+		* List of Task objects
+		* List of global values shared by tasks
+
+	CSyn Task component specifies specific kernel to be execute as part of Job. 
+	CSyn Task contains next properties:
+	
+		* Task Name
+		* Kernel object with established parameter values
+
+	CSyn JobResult component defines job execution results. C
+	Syn JobResult contains next properties:
+	
+		* Job Name
+		* Job universally unique identifier (UUID)
+		* List of TaskReasult objects
+
+	CSyn TaskResult component defines task execution results. 
+	CSyn TaskResult contains next properties:
+	
+		* Task Name
+		* Task UUID
+		* List of kernel output type Parameter objects
+		
+	CSyn JobStatus component defines job execution status. C
+	Syn JobStatus contains next properties:
+	
+		* Job Name
+		* Job UUID
+		* Job start time
+		* Job end time
+		* Job execution time interval
+		* Job execution status
+		* Job execution error
+		* List of TaskStatus objects
+		
+	CSyn TaskStatus component defines task execution status. C
+	Syn TaskStatus contains next properties:
+	
+		* Task Name
+		* Task UUID
+		* Task start time
+		* Task execution time interval
+		* Task execution status
+		* Task execution error
+		
+	CSyn Property component defines job properties. CSyn defines next job properties:
+	
+		* Sequential property set up sequential task execution order. By default all job tasks are executed in parallel 
+		* MaxRunTime property set up job max execution time. By default will be used job max execution time from CSyn Director configuration.
+
+
+---------------------
+**Programming model**
+---------------------
+
+	CSyn runtime environment service provides next list of activities:
+	
+		* Get list of available modules
+		* Get list of kernels for specific module
+		* Get specific kernel
+		* Execute job; This call return job result when job execution will be finished
+		* Execute job asynchronously; This call return job status when job execution will be started   
+		* Get job execution status
+		* Get job execution result
+		* Create list of kernels
+		* Remove list of kernels
+		* Remove specific kernel
+		* Create cubin custom module and upload compiled CUDA PTX or binary cubin file
+		* Create fatcubin custom module and upload compiled CUDA fatcubin file
+		* Remove custom module
+
+	Following describe job execution step sequence:
+	
+		* Create Job component
+		* Get Kernel component from CSyn runtime environment
+		* Set up Kennel input parameters values
+		* Create Task component for Kernel and add it to Job
+		* Repeat steps 2,4,5 to create complete set of Tasks
+		* Execute Job and receive JobResult component
+		
+	Following describe job asynchronously execution step sequence:
+	
+		* Create Job
+		* Load Kernel from CSyn runtime environment
+		* Set Kernel input parameter values
+		* Create Task for Kernel and add it to Job
+		* By repeating steps 2,4,5 create complete set of Tasks
+		* Execute Job asynchronously 
+		* Get JobStatus
+		* If Job execution in progress repeat step 7
+		* Get JobResult

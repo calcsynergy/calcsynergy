@@ -1,0 +1,209 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSyn Director Service &#8212; CSyn User Guide 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CSyn C++ Client" href="CPPClient.html" />
+    <link rel="prev" title="CSyn Engine Service" href="Engine.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="csyn-director-service">
+<h1><strong>CSyn Director Service</strong><a class="headerlink" href="#csyn-director-service" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Director controls CSyn runtime environment and executes client requests.  Director route Clients requests to Engines, monitor Engine status, balance the Engines load and manage CSyn database and resources.
+Engine sends status information requets (heartbeats) to Director. If heartbeats have been missed the Director will exclude Engine from the list available engines and set it as deactivated. The engine will be activated and included in the list of available engines, as soon as it will start to send heartbeats to Director.</p>
+</div>
+<div class="section" id="installation-and-configuration">
+<h2><strong>Installation and Configuration</strong><a class="headerlink" href="#installation-and-configuration" title="Permalink to this headline">¶</a></h2>
+<p>For Windows machine, a Windows installation executable is available. For Linux, an archive file is available for download to a target machine.
+Engine could be started as service for Windows and daemon process on Linux
+Once installed, The CSyn Director configuration can be changed. The main configuration property list:</p>
+<blockquote>
+<div><ul class="simple">
+<li>engine.number key defines number of engines. Every engine required host and port keys</li>
+<li>engine.1.host key defines first engine host name. Configuration must define host name for every available engine</li>
+<li>engine.1.port key defines first engine port. Configuration must define port for every available engine</li>
+<li>master.port key defines director port</li>
+<li>module.path key defines custom CUDA modules directory path. Shared storage device with direct access for every CSyn engine and director must be used to save CUDA modules</li>
+<li>web.path key defines CSyn operating console directory path</li>
+<li>db.path key defines database path</li>
+<li>task.per.device key defines max number of task per request</li>
+<li>globalmemory.per.device key defines max allowed global memory per job</li>
+<li>max.job.run.time key defines max job run time</li>
+<li>job.history.size key defines max job history size</li>
+<li>security.scheme key defines security scheme</li>
+<li>security.basic.username key defines admin role user name</li>
+<li>security.basic.password key defines admin role password</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="windows-launch">
+<h2><strong>Windows launch</strong><a class="headerlink" href="#windows-launch" title="Permalink to this headline">¶</a></h2>
+<p>Director startup option list for Windows machine:</p>
+<blockquote>
+<div><ul class="simple">
+<li>/registerService=name option register the application as a service</li>
+<li>/unregisterService option unregister the application as a service</li>
+<li>/displayName=name option specify a display name for the service (only with /registerService)</li>
+<li>/description=text option specify a description for the service (only with /registerService)</li>
+<li>/startup=automatic|manual option specify the startup mode for the service (only with /registerService)</li>
+</ul>
+</div></blockquote>
+<p>For example next command will register Windows service director with display name CsynDirector.</p>
+<blockquote>
+<div>CSynService.exe /registerService=director /displayName=CsynDirector /startup=automatic</div></blockquote>
+<p>For example next command will start CSyn director.</p>
+<blockquote>
+<div>CSynService.exe</div></blockquote>
+</div>
+<div class="section" id="linux-launch">
+<h2><strong>Linux launch</strong><a class="headerlink" href="#linux-launch" title="Permalink to this headline">¶</a></h2>
+<p>Engine startup option for Linux machine:</p>
+<blockquote>
+<div><ul class="simple">
+<li>–daemon run as a daemon</li>
+</ul>
+</div></blockquote>
+<p>For example next command will start CSyn director as daemon</p>
+<blockquote>
+<div>CSynService –daemon</div></blockquote>
+<p>For example next command will start CSyn director.</p>
+<blockquote>
+<div>CSynService</div></blockquote>
+</div>
+<div class="section" id="authentication-and-authorization">
+<h2><strong>Authentication and Authorization</strong><a class="headerlink" href="#authentication-and-authorization" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>CSyn authorization model includes next roles:</dt>
+<dd><ul class="first last simple">
+<li>Client – this role allows CSyn users load Module and Kernel from system and execute Jobs</li>
+<li>Admin – this role allows CSyn users load Module and Kernel from system, execute Jobs, create new Module and Kernel and remove existing Module and Kernel from system</li>
+</ul>
+</dd>
+</dl>
+<p>Authentication is required for users with Admin role. CSyn Director supports simple authentication mechanism based on username and password.</p>
+</div>
+<div class="section" id="job-execution-and-engines-balance-loading">
+<h2><strong>Job execution and Engines Balance Loading</strong><a class="headerlink" href="#job-execution-and-engines-balance-loading" title="Permalink to this headline">¶</a></h2>
+<p>CSyn Director takes a central role in job execution process and supports engines load balancing. CSyn Director maintains the list of available engines by checking in the background for their respective status. To run the job, CSyn Director splits the task into groups and submits these groups to different engines for parallel execution.
+Director load balancing policy is based on assumption that all CSyn engines are equal. CSyn Director will send group for execution to the engine with the least quantity of assigned tasks.</p>
+</div>
+<div class="section" id="database-management">
+<h2><strong>Database Management</strong><a class="headerlink" href="#database-management" title="Permalink to this headline">¶</a></h2>
+<p>CSyn Director uses a SQLite database to store data such as Module and Kernel information. Director configuration file includes the database path and supports Module and Kernel load, create and remove operations.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">CSyn User Guide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html"><strong>CSyn Overview</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Client.html"><strong>CSyn Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Engine.html"><strong>CSyn Engine Service</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>CSyn Director Service</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction"><strong>Introduction</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-and-configuration"><strong>Installation and Configuration</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-launch"><strong>Windows launch</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux-launch"><strong>Linux launch</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication-and-authorization"><strong>Authentication and Authorization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-execution-and-engines-balance-loading"><strong>Job execution and Engines Balance Loading</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-management"><strong>Database Management</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CPPClient.html"><strong>CSyn C++ Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonClient.html"><strong>CSyn Python Client</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Engine.html" title="previous chapter"><strong>CSyn Engine Service</strong></a></li>
+      <li>Next: <a href="CPPClient.html" title="next chapter"><strong>CSyn C++ Client</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Calculation Synergy team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Director.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

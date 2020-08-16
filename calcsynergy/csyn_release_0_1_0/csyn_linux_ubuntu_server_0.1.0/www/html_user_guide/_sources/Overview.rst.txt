@@ -1,0 +1,40 @@
+=================
+**CSyn Overview**
+=================
+
+  
+----------------
+**Introduction**
+----------------
+
+	Calculation Synergy (CSyn) is a distributed general purpose computing system for Graphics Processing Units (GPU). CSyn is a highly scalable software solution that allows application services to operate in an unattached to specific GPUs. Multiple client applications can submit multiple requests in parallel and CSyn will handle these requests in parallel on different GPUs. A scalable architecture will provide linear gains in performance with the addition of more hardware resources. Current CSyn version supports CUDA as a parallel processing platform.
+
+--------------------------
+**CUDA kernels execution**
+--------------------------
+
+	The ability to easy integrate a new technology into a variety of different environments is a core requirement of any new technology. CSyn offers support for multiple programming languages with the addition of a easy integration strategy. The client applications can execute any CUDA kernel hosted on the CSyn using different languages, including C++, Python, Java and C#. CSyn also provides a standards-based, flexible and intuitive programming model to simplify development process. It provides the ability to create instances of Kernel objects, provide Kernel parameters values, and submit job to CSyn runtime environments for execution. This job is virtualized and invoked on one of CSyn GPU and job results are returned to the client application. 
+ 
+
+----------------
+**Architecture**
+----------------
+
+	CSyn uses Service-Oriented Architecture as an architectural approach. It includes three different components in its architecture:
+
+		* Clients - The components that create and submit service requests to the CSyn Director
+		* Engines - The services that host and run CUDA kernels on the CSyn GPUs
+		* Director - The service that assigns Clients job to Engines, load balance Engines and manages CSyn resources
+	
+	.. image:: CSyn_Architecture_Diagram.jpg
+		:width: 543px
+		:align: center
+		:height: 412px
+		:alt: CSyn Architecture Diagram
+
+
+---------------------
+**Operating Console**
+---------------------
+
+	In addition to providing a programming model and runtime environment, CSyn also includes a web-based operating console. Console allows you to check the systems status, review available GPU properties, CSyn hosted modules and kernels, access jobs execution status, download different client SDKs and provide CSyn user guide.

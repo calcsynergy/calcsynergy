@@ -1,0 +1,37 @@
+======================
+**CSyn Python Client**
+======================
+
+----------------
+**Introduction**
+----------------
+CSyn Python client an archive file is available for download to a target machine. Archive csyn.py file contains modules that define required functions, classes and variables.
+
+--------------------------------
+**Module and Kernel management**
+--------------------------------
+CSyn Python client provides set of functions to manage custom modules and kernels. This sample code shows how to remove existing module and create new one:
+
+.. raw:: html
+	:file: module_manager_python.html
+
+This sample code shows how to create kernel:
+
+.. raw:: html
+	:file: kernel_manager_python.html
+
+-----------------
+**Job execution**
+-----------------
+CSyn Python client provides set of functions to get the kernel object, creates tasks and executes them. This sample code shows  how to create and execute a task:
+
+.. raw:: html
+	:file: job_run_python.html
+	
+--------------------------------
+**Job execution asynchronously**
+--------------------------------
+CSyn Python client provides set of functions to get the kernel object, create job and execute it asynchronously. This sample code shows  how to create and execute job asynchronously:
+
+.. raw:: html
+	:file: job_run_async_python.html

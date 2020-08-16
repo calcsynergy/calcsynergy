@@ -1,0 +1,49 @@
+===================
+**CSyn C++ Client**
+===================
+
+
+----------------
+**Introduction**
+----------------
+
+For Windows machine a Windows installation executable is available. For Linux, an archive file is available for download to a target machine.
+CSyn C++ client consists of include and lib directories:
+include directory contains CSyn C++ classes declarations
+lib directory contains all required libraries
+
+--------------------------------
+**Module and Kernel management**
+--------------------------------
+
+
+CSyn C++ client provides set of functions to manage custom modules and kernels. This sample code shows how to remove existing module and create new one:
+
+.. raw:: html
+	:file: module_manager_cpp.html
+
+This sample code shows how to create kernel:
+
+.. raw:: html
+	:file: kernel_manager_cpp.html
+
+
+
+-----------------
+**Job execution**
+-----------------
+
+
+CSyn C++ client provides set of functions to get the kernel object, create job and execute it. This sample code shows how to create and execute job:
+
+.. raw:: html
+	:file: job_run_cpp.html
+	
+--------------------------------
+**Job execution asynchronously**
+--------------------------------
+
+CSyn C++ client provides set of functions to get the kernel object, create job and execute it asynchronously. This sample code shows  how to create and execute job asynchronously:
+
+.. raw:: html
+	:file: job_run_async_cpp.html
