@@ -1,0 +1,179 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSyn System Libraries &#8212; CSyn User Guide 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CSyn C++ Client" href="CPPClient.html" />
+    <link rel="prev" title="CSyn Module Development" href="Development.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="csyn-system-libraries">
+<h1><strong>CSyn System Libraries</strong><a class="headerlink" href="#csyn-system-libraries" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cuda-blas">
+<h2><strong>CUDA BLAS</strong><a class="headerlink" href="#cuda-blas" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>CUDA BLAS (Basic Linear Algebra Subprograms) implements next kernels:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Solve the triangular linear system with multiple right-hand-sides</li>
+<li>Multiply triangular matrix by triangular matrix</li>
+<li>Multiply symmetric matrix by symmetric matrix</li>
+<li>Multiply matrix by matrix</li>
+<li>Solve the triangular linear system with a single right-hand-side</li>
+<li>Multiply triangular matrix by vector</li>
+<li>Solve the triangular banded linear system with a single right-hand-side</li>
+<li>Multiply triangular banded matrix by vector</li>
+<li>Multiply symmetric matrix by vector</li>
+<li>Multiply symmetric banded matrix by vector</li>
+<li>Multiply matrix by vector</li>
+<li>Multiply banded matrix by vector</li>
+<li>Interchange the elements of two vectors</li>
+<li>Scale vector by the scalar</li>
+<li>Apply rotation matrix to vectors</li>
+<li>Compute the Euclidean norm of the vector</li>
+<li>Compute the dot product of two vectors</li>
+<li>Copy first vector into the second vector</li>
+<li>Multiply the first vector by the scalar and adds it to the second vector</li>
+<li>Sum the absolute values of the elements of vector</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="sorting-network">
+<h2><strong>Sorting network</strong><a class="headerlink" href="#sorting-network" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Sorting network implements next kernels:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Odd even merge sort double value</li>
+<li>Odd even merge sort float value</li>
+<li>Odd even merge sort long value</li>
+<li>Odd even merge sort integer value</li>
+<li>Odd even merge sort double key and integer value</li>
+<li>Odd even merge sort float key and integer value</li>
+<li>Odd even merge sort long key and integer value</li>
+<li>Odd even merge sort integer key and integer value</li>
+<li>Bitonic sort double value</li>
+<li>Bitonic sort float value</li>
+<li>Bitonic sort long value</li>
+<li>Bitonic sort integer value</li>
+<li>Bitonic sort double key and integer value</li>
+<li>Bitonic sort float key and integer value</li>
+<li>Bitonic sort long key and integer value</li>
+<li>Bitonic sort integer key and integer value</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">CSyn User Guide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html"><strong>CSyn Overview</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Client.html"><strong>CSyn Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Engine.html"><strong>CSyn Engine Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Director.html"><strong>CSyn Director Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Development.html"><strong>CSyn Module Development</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>CSyn System Libraries</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cuda-blas"><strong>CUDA BLAS</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sorting-network"><strong>Sorting network</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CPPClient.html"><strong>CSyn C++ Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CShartClient.html"><strong>CSyn C# Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonClient.html"><strong>CSyn Python Client</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Development.html" title="previous chapter"><strong>CSyn Module Development</strong></a></li>
+      <li>Next: <a href="CPPClient.html" title="next chapter"><strong>CSyn C++ Client</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Calculation Synergy team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/SystemLibrary.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,92 @@
+=======================
+**CSyn Engine Service**
+=======================
+
+
+----------------
+**Introduction**
+----------------
+
+CSyn Engine is a service that has one GPU device assigned to it. It accepts requests submitted by Director, executes the list of tasks from the request and sends the list of tasks results back to Director. Engine runs the tasks on allocated GPU devices in parallel or sequentially. 
+Engine sends status information requets (heartbeats) to Director. The engine will be activated and included in the list of available engines, as soon as it will start to send heartbeats to Director. If heartbeats have been missed the Director will exclude Engine from the list available engines and set it as deactivated. 
+If the host has more than one GPU installed, more than one CSyn Engine instance can be running on a host.
+
+----------------------------------
+**Prerequisites**
+----------------------------------
+
+To run CSyn Engine service requires to install CUDA 10.2 or higher. See [CUDA installation instructions guide for Windows](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html) and [CUDA installation instructions guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html) for more details.
+
+----------------------------------
+**Installation and Configuration**
+----------------------------------
+
+Engines are only installed on a machine once. All engines on the host can share the same configuration. 
+For Windows machine, a Windows installation executable is available. For Linux, an archive file is available for download to a target machine. Engine could be started as service for Windows and daemon process on Linux.
+Once installed, Engine configuration can be changed. The main configuration property list:
+
+	* master.host key defines director host
+	* master.port key defines director porn 
+	* module.path key defines CUDA modules directory path. Shared storage device with direct access for every CSyn engine and director must be used to save CUDA modules.
+	* device.major key defines GPU device major compute capability
+
+----------------------------------
+**Windows launch**
+----------------------------------
+
+Engine startup option list for Windows machine:
+	
+	* /registerService=name option register the application as a service
+	* /unregisterService option unregister the application as a service
+	* /displayName=name option specify a display name for the service (only with /registerService)
+	* /description=text option specify a description for the service (only with /registerService)
+	* /startup=automatic|manual option specify the startup mode for the service (only with /registerService)
+	* /device-id=value option GPU id
+	* /port=value option engine service port
+	
+For example next command will register Windows service engine0 with display name CsynEngine0. When service will be started it will use first host GPU to execute kernels and port 8090 to communicate with CSyn Director.
+
+	CSynEngine.exe /registerService=engine0 /displayName=CsynEngine0 /startup=automatic /gpuId=0 /port=8090
+	
+For example next command will start CSyn engine. It will use first host GPU to execute kernels and port 8090 to communicate with CSyn Director.
+
+	CSynEngine.exe  /gpuId=0 /port=8090
+	
+----------------------------------
+**Linux launch**
+----------------------------------
+
+Engine startup option list for Linux machine:
+	
+	* --daemon run as a daemon
+	* --device-id=value option GPU id
+	* --port=value option engine service port
+	
+For example next command will start CSyn engine as daemon. It will use first host GPU to execute kernels and port 8090 to communicate with CSyn Director.
+
+	CSynEngine --daemon --gpuId=0 --port=8090
+	
+For example next command will start CSyn engine. It will use first host GPU to execute kernels and port 8090 to communicate with CSyn Director.
+
+	CSynEngine  --gpuId=0 --port=8090
+	
+	
+	
+
+------------------
+**Task Execution**
+------------------
+
+The following briefly describes of an Engine service tasks execution steps:
+	* The CSyn Director checks the Engine service status 
+	* If Engine service is available Director submits request that contains list of tasks for execution
+	* The Engine accepts request, add it to request queue and notifies Execution manager 
+	* Execution manager gets request from the request queue and perform next steps:
+	
+		* Download modules required to execute tasks from Director if they are not available
+		* Execute all request tasks on allocated GPU device
+		* Put list of results to response queue and notifies Response manager
+		
+	* Response manager get tasks execution results list from the response queue and send response to Director
+	
+

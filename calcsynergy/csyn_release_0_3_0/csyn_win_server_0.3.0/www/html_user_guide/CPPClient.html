@@ -1,0 +1,223 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSyn C++ Client &#8212; CSyn User Guide 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CSyn C# Client" href="CShartClient.html" />
+    <link rel="prev" title="CSyn System Libraries" href="SystemLibrary.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="csyn-c-client">
+<h1><strong>CSyn C++ Client</strong><a class="headerlink" href="#csyn-c-client" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>For Windows machine a Windows installation executable is available. For Linux, an archive file is available for download to a target machine.
+CSyn C++ client consists of include and lib directories:
+include directory contains CSyn C++ classes declarations
+lib directory contains all required libraries</p>
+</div>
+<div class="section" id="module-and-kernel-management">
+<h2><strong>Module and Kernel management</strong><a class="headerlink" href="#module-and-kernel-management" title="Permalink to this headline">¶</a></h2>
+<p>CSyn C++ client provides set of functions to manage custom modules and kernels. This sample code shows how to remove existing module and create new one:</p>
+<div>
+<p style="font-size:11px;font-style: italic;">// Create manager object using host name, port, user name and password</p>
+<p style="font-size:11px;">csyn::CSynManager  manager("CSyn director host", CSyn_director_port, "admin user name", "admin password");</p>
+<p style="font-size:11px;font-style: italic;">// Remove module using module name, module version and module type</p>
+<p style="font-size:11px;">manager.removeModule("Vector operations",  "1.0", 1);</p>
+<p style="font-size:11px;font-style: italic;">// Create new module object using module name, module version, module type and module description</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Module&gt; module = std::make_shared&lt;csyn::Module&gt;("Vector operations",  "1.0",  1,  "Basic vector operations");</p>
+<p style="font-size:11px;">manager.uploadFatCubinModule(module, "CUDA compiled module file path");</p>
+</div><p>This sample code shows how to create kernel:</p>
+<div>
+<p style="font-size:11px;font-style: italic;">// Create manager object using host name, port, user name and password</p>
+<p style="font-size:11px;">csyn::CSynManager  manager("CSyn director host", CSyn_director_port, "admin user name", "admin password");</p>
+<p style="font-size:11px;font-style: italic;">// Create kernel list object</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::KernelList&gt; kernelList = std::make_shared&lt;csyn::KernelList&gt;();</p>
+<p style="font-size:11px;font-style: italic;">// Create kernel object</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Kernel&gt; kernel = std::make_shared&lt;csyn::Kernel&gt;("Add double vectors", "Vector operations ", "1.0", 1);</p>
+<p style="font-size:11px;font-style: italic;">// Create kernel parameters</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Parameter&gt; parameter = std::make_shared&lt;csyn::Parameter&gt;("a", 1, csyn::DataType::TYPE_DOUBLE_ARRAY, csyn::ParameterType::PARAMETER_INPUT);</p>
+<p style="font-size:11px;">kernel->addParameter(parameter);</p>
+<p style="font-size:11px;">parameter = std::make_shared&lt;csyn::Parameter&gt;("b", 2, csyn::DataType::TYPE_DOUBLE_ARRAY, csyn::ParameterType::PARAMETER_INPUT);</p>
+<p style="font-size:11px;">kernel->addParameter(parameter);</p>
+<p style="font-size:11px;">parameter = std::make_shared&lt;csyn::Parameter&gt;("c", 3, csyn::DataType::TYPE_DOUBLE_ARRAY, csyn::ParameterType::PARAMETER_OUTPUT);</p>
+<p style="font-size:11px;">kernel->addParameter(parameter);</p>
+<p style="font-size:11px;">parameter = std::make_shared&lt;csyn::Parameter&gt;("n", 4, csyn::DataType::TYPE_INT32, csyn::ParameterType::PARAMETER_INPUT);</p>
+<p style="font-size:11px;">kernel->addParameter(parameter);</p>
+<p style="font-size:11px;font-style: italic;">// Add kernel to kernel list object</p>
+<p style="font-size:11px;">kernelList->addKernel(kernel);</p>
+<p style="font-size:11px;font-style: italic;">// Create new kernel</p>
+<p style="font-size:11px;">manager.uploadKernelList(kernelList);</p>
+</div></div>
+<div class="section" id="job-execution">
+<h2><strong>Job execution</strong><a class="headerlink" href="#job-execution" title="Permalink to this headline">¶</a></h2>
+<p>CSyn C++ client provides set of functions to get the kernel object, create job and execute it. This sample code shows how to create and execute job:</p>
+<div>
+<p style="font-size:11px;font-style: italic;">// Create manager object using host name and  port</p>
+<p style="font-size:11px;">csyn::CSynManager manager("CSyn director host", CSyn_director_port);</p>
+<p style="font-size:11px;font-style: italic;">// Create job object where n is input double vectors size</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Job&gt; job = std::make_shared&lt;csyn::Job&gt;("Add vectors job", n / BLOCK_SIZE, 1, 1, BLOCK_SIZE, 1, 1);</p>
+<p style="font-size:11px;font-style: italic;">// Get kernel object by module name, module version, module type and kernel name</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Kernel&gt; kernel = manager.getKernel("Vector operations ",  "1.0",  1, "Add double vectors" );</p>
+<p style="font-size:11px;font-style: italic;">// Set kernel parameters values by parameter order where x and y are pointers to double vectors</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Value&gt; value = std::make_shared&lt;csyn::ValueDoubleArray&gt;(x, n);</p>
+<p style="font-size:11px;">kernel->setValueByOrder(1, value);</p>
+<p style="font-size:11px;">value = std::make_shared&lt;csyn::ValueDoubleArray&gt;(y, n);</p>
+<p style="font-size:11px;">kernel->setValueByOrder(2, value);</p>
+<p style="font-size:11px;">value = std::make_shared&lt;csyn::ValueDoubleArray&gt;(n);</p>
+<p style="font-size:11px;">kernel->setValueByOrder(3, value);</p>
+<p style="font-size:11px;">value = std::make_shared&lt;csyn::ValueInt&gt;(n);</p>
+<p style="font-size:11px;">kernel->setValueByOrder(4, value);</p>
+<p style="font-size:11px;font-style: italic;">// Create task object</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Task&gt; task = std::make_shared&lt;csyn::Task&gt;("Add vectors task", kernel);</p>
+<p style="font-size:11px;font-style: italic;">// Add task object to job</p>
+<p style="font-size:11px;">job->addTask(task);</p>
+<p style="font-size:11px;font-style: italic;">// Execute job</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::JobResult&gt; result = manager.runJob(job);</p>
+</div></div>
+<div class="section" id="job-execution-asynchronously">
+<h2><strong>Job execution asynchronously</strong><a class="headerlink" href="#job-execution-asynchronously" title="Permalink to this headline">¶</a></h2>
+<p>CSyn C++ client provides set of functions to get the kernel object, create job and execute it asynchronously. This sample code shows  how to create and execute job asynchronously:</p>
+<div>
+<p style="font-size:11px;font-style: italic;">// Create manager object using host name and  port</p>
+<p style="font-size:11px;">csyn::CSynManager manager("CSyn director host", CSyn_director_port);</p>
+<p style="font-size:11px;font-style: italic;">// Create job object where n is input vectors size</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Job&gt; job = std::make_shared&lt;csyn::Job&gt;("Add vectors job", n / BLOCK_SIZE, 1, 1, BLOCK_SIZE, 1, 1);</p>
+<p style="font-size:11px;font-style: italic;">// Get kernel object by module name, module version, module type and kernel name</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Kernel&gt; kernel = manager.getKernel("Vector operations ",  "1.0",  1, "Add double vectors" );</p>
+<p style="font-size:11px;font-style: italic;">// Set kernel parameters values by parameter order where x and y are pointers to double vectors</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Value&gt; value = std::make_shared&lt;csyn::ValueDoubleArray&gt;(x, n);</p>
+<p style="font-size:11px;">kernel->setParameterValueByOrder(1, value);</p>
+<p style="font-size:11px;">value = std::make_shared&lt;csyn::ValueDoubleArray&gt;(y, n);</p>
+<p style="font-size:11px;">kernel->setParameterValueByOrder(2, value);</p>
+<p style="font-size:11px;">value = std::make_shared&lt;csyn::ValueDoubleArray&gt;(n);</p>
+<p style="font-size:11px;">kernel->setParameterValueByOrder(3, value);</p>
+<p style="font-size:11px;">value = std::make_shared&lt;csyn::ValueInt&gt;(n);</p>
+<p style="font-size:11px;">kernel->setParameterValueByOrder(4, value);</p>
+<p style="font-size:11px;font-style: italic;">// Create task object</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::Task&gt; task = std::make_shared&lt;csyn::Task&gt;("Add vectors task", kernel);</p>
+<p style="font-size:11px;font-style: italic;">// Add task object to job</p>
+<p style="font-size:11px;">job->addTask(task);</p>
+<p style="font-size:11px;font-style: italic;">// Execute job asynchronously</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::JobStatus&gt; status = manager.runJobAsync(job);</p>
+<p style="font-size:11px;font-style: italic;">// Check if job execution is finished</p>
+<p style="font-size:11px;">while (status->isJobFinished())</p>
+<p style="font-size:11px;margin-left: 40px;">status = manager.getJobStatus(status->getUUID());</p>
+<p style="font-size:11px;font-style: italic;">// Get job result</p>
+<p style="font-size:11px;">std::shared_ptr&lt;csyn::JobResult&gt; result = manager.getJobResult(status->getUUID());</p>
+
+</div></div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">CSyn User Guide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html"><strong>CSyn Overview</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Client.html"><strong>CSyn Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Engine.html"><strong>CSyn Engine Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Director.html"><strong>CSyn Director Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Development.html"><strong>CSyn Module Development</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SystemLibrary.html"><strong>CSyn System Libraries</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>CSyn C++ Client</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction"><strong>Introduction</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-and-kernel-management"><strong>Module and Kernel management</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-execution"><strong>Job execution</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-execution-asynchronously"><strong>Job execution asynchronously</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CShartClient.html"><strong>CSyn C# Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonClient.html"><strong>CSyn Python Client</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="SystemLibrary.html" title="previous chapter"><strong>CSyn System Libraries</strong></a></li>
+      <li>Next: <a href="CShartClient.html" title="next chapter"><strong>CSyn C# Client</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Calculation Synergy team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/CPPClient.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

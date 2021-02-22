@@ -48,5 +48,12 @@ Release 0.2.0. C# SDK has been added. It contains next archives:
 - C++ SDK binary archives for Windows and Linux
 - Python SDK archive
 - CSharp SDK archive
+
+Release 0.3.0. Sort system library has been added. It contains next archives:
+- Director binary archives for Windows and Linux
+- Engine binary archives for Windows and Linux
+- C++ SDK binary archives for Windows and Linux
+- Python SDK archive
+- CSharp SDK archive
 ## License
 CSyn system is distributed under terms that allow users to run the system for any purpose and distribute the program at no cost to the user.
