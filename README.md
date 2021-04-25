@@ -55,5 +55,12 @@ Release 0.3.0. Sort system library has been added. It contains next archives:
 - C++ SDK binary archives for Windows and Linux
 - Python SDK archive
 - CSharp SDK archive
+
+Release 0.3.1. C++ SDK, Director and Engine for linux CentOS has been added. It contains next archives:
+- Director binary archives for Windows, Linux Ubuntu and Linux CentOS
+- Engine binary archives for Windows, Linux Ubuntu and Linux CentOS
+- C++ SDK binary archives for Windows, Linux Ubuntu and Linux CentOS
+- Python SDK archive
+- CSharp SDK archive
 ## License
 CSyn system is distributed under terms that allow users to run the system for any purpose and distribute the program at no cost to the user.
