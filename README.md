@@ -62,5 +62,15 @@ Release 0.3.1. C++ SDK, Director and Engine for linux CentOS has been added. It 
 - C++ SDK binary archives for Windows, Linux Ubuntu and Linux CentOS
 - Python SDK archive
 - CSharp SDK archive
+
+Release 0.3.2. updates list:
+- Added engine service get system info json request handler
+- Removed cuda stream from cublas context
+- Modified job result class and c++/c#/python clients
+
+Release 0.3.3. updates list:
+- Added engine service task group result manager pool
+- Added director service task group manager pool
+
 ## License
 CSyn system is distributed under terms that allow users to run the system for any purpose and distribute the program at no cost to the user.
