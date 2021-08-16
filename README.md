@@ -64,6 +64,8 @@ Release 0.3.1. C++ SDK, Director and Engine for linux CentOS has been added. It 
 - CSharp SDK archive
 
 Release 0.3.2. updates list:
+- Add CSynEngineLibrary for engine service
+- Add CSynServerLibrary for directory service 
 - Added engine service get system info json request handler
 - Removed cuda stream from cublas context
 - Modified job result class and c++/c#/python clients
