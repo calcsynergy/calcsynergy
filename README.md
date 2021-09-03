@@ -74,5 +74,9 @@ Release 0.3.3. updates list:
 - Added engine service task group result manager pool
 - Added director service task group manager pool
 
+Release 0.4.0. updates list:
+- Added cusolver system library
+
+
 ## License
 CSyn system is distributed under terms that allow users to run the system for any purpose and distribute the program at no cost to the user.
