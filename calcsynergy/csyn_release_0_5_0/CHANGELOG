@@ -1,0 +1,32 @@
+This is the changelog file for the Calculation Synergy (CSyn) system.
+
+Release 0.2.0
+=============
+
+- C# SDK has been added
+
+Release 0.3.0
+=============
+
+- Sort system library has been added
+
+Release 0.3.1
+=============
+
+- C++ SDK, Director and Engine for linux CentOS has been added
+
+Release 0.3.3
+=============
+
+- Improve engine and director performance 
+
+
+Release 0.4.0
+=============
+
+- cusolver system library has been added 
+
+Release 0.5.0
+=============
+
+- Add Executor service

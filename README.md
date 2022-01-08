@@ -16,18 +16,21 @@ for execution. This job is virtualized and invoked on one of CSyn GPU and job re
 CSyn uses Service-Oriented Architecture as an architectural approach.
 It includes three different components in its architecture:
 - Clients components that create and submit service requests to the CSyn Director
-- Engines services that host and run CUDA kernels on the CSyn GPUs
-- Director service that assigns Clients job to Engines, load balance Engines and manages CSyn resources
+- Director service that manages CSyn resources (modules, executors, engines), execute different client requests, load balance client jobs 
+- Executors services that execute client jobs, load balance job tasks to different engines
+- Engines services that run job tasks on the CSyn GPUs
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 See CSyn project user [guide](http://www.calcsynergy.com/html_user_guide/index.html) for more details.
 #### Prerequisites
-To run Director and Engine services CSyn requires to install CUDA 10.2 or higher.
+To run Engine services CSyn requires to install CUDA 10.2 or higher.
 See CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html) for Windows and CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html) for Linux for more details.
 #### Installing
 To install CSyn system on your local machine follow the next steps:
 - Downloads Director archive and extract it content to your destination. Update Director configuration file
 - Start Director service. To start Director service on Windows use command: CSynService.exe
+- Downloads Executor archive and extract it content to your destination. Update Executor configuration file
+- Start one or more Executor services. To start Executor service on Windows use command: CSynEngine.exe  /port=8100
 - Downloads Engine archive and extract it content to your destination. Update Engine configuration file
 - Start one or more Engine services. To start Engine service on Windows use command: CSynEngine.exe  /gpuId=0 /port=8090
 See CSyn project user [guide](http://www.calcsynergy.com/html_user_guide/index.html) for more details.
@@ -76,6 +79,9 @@ Release 0.3.3. updates list:
 
 Release 0.4.0. updates list:
 - Added cusolver system library
+
+Release 0.5.0. updates list:
+- Update CSyn architecture. Add Executor service
 
 
 ## License

@@ -1,0 +1,57 @@
+This is the README file for the Calculation Synergy (CSyn) system.
+
+In this document you will find a brief description of the directory layout,
+
+Introduction
+============
+
+Calculation Synergy (CSyn) is a distributed general purpose computing system for Graphics Processing Units (GPU).
+CSyn is a highly scalable software solution that allows application services to operate in an unattached to specific GPUs.
+Multiple client applications can submit multiple requests in parallel and CSyn will handle these requests in parallel on different GPUs.
+A scalable architecture will provide linear gains in performance with the addition of more hardware resources.
+Current CSyn version supports CUDA as a parallel processing platform.
+
+
+CUDA kernels execution
+======================
+
+The ability to easy integrate a new technology into a variety of different environments is a core requirement of any new technology.
+CSyn offers support for multiple programming languages with the addition of a easy integration strategy.
+The client applications can execute any CUDA kernel hosted on the CSyn using different languages, including C++, Python, Java and CSharp.
+CSyn also provides a standards-based, flexible and intuitive programming model to simplify development process.
+It provides the ability to create instances of Kernel objects, provide Kernel parameters values, and submit job to CSyn runtime environments
+for execution. This job is virtualized and invoked on one of CSyn GPU and job results are returned to the client application.
+
+Architecture
+============
+
+CSyn uses Service-Oriented Architecture as an architectural approach.
+It includes three different components in its architecture:
+- Clients components that create and submit service requests to the CSyn Director
+- Director service that manages CSyn resources (modules, executors, engines), execute different client requests, load balance client jobs 
+- Executors services that execute client jobs, load balance job tasks to different engines
+- Engines services that run job tasks on the CSyn GPUs
+
+Getting Started
+===============
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+See CSyn project user guid http://www.calcsynergy.com/html_user_guide/index.html for more details.
+
+Prerequisites
+=============
+
+To run Engine services CSyn requires to install CUDA 10.2 or higher.
+See CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html) for Windows and CUDA installation instructions guide https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html for Linux for more details.
+
+Installation
+============
+
+To install CSyn system on your local machine follow the next steps:
+- Downloads Director archive and extract it content to your destination. Update Director configuration file
+- Start Director service
+- Downloads Executor archive and extract it content to your destination. Update Executor configuration file
+- Start one or more Executor services
+- Downloads Engine archive and extract it content to your destination. Update Engine configuration file
+- Start one or more Engine services
+See CSyn project user guide http://www.calcsynergy.com/html_user_guide/index.html for more details.
