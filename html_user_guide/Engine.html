@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+    <title>CSyn Engine Service &#8212; CSyn User Guide 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CSyn Director Service" href="Director.html" />
+    <link rel="prev" title="CSyn Client" href="Client.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="csyn-engine-service">
+<h1><strong>CSyn Engine Service</strong><a class="headerlink" href="#csyn-engine-service" title="Permalink to this headline">¶</a></h1>
+<section id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>CSyn Engine is a service that has one GPU device assigned to it. It accepts requests submitted by Executor, executes the list of tasks from the request and sends the list of tasks results back to Executor. Engine runs the tasks on allocated GPU devices in parallel or sequentially.
+Engine sends status information requets (heartbeats) to Director. The engine will be activated and included in the list of available engines, as soon as it will start to send heartbeats to Director. If heartbeats have been missed the Director will exclude Engine from the list available engines and set it as deactivated.
+If the host has more than one GPU installed, more than one CSyn Engine instance can be running on a host.</p>
+</section>
+<section id="prerequisites">
+<h2><strong>Prerequisites</strong><a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>To run CSyn Engine service requires to install CUDA 10.2 or higher. See [CUDA installation instructions guide for Windows](<a class="reference external" href="https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html">https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html</a>) and [CUDA installation instructions guide for Linux](<a class="reference external" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html</a>) for more details.</p>
+</section>
+<section id="installation-and-configuration">
+<h2><strong>Installation and Configuration</strong><a class="headerlink" href="#installation-and-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Engines are only installed on a machine once. All engines on the host can share the same configuration.
+For Windows machine, a Windows installation executable is available. For Linux, an archive file is available for download to a target machine. Engine could be started as service for Windows and daemon process on Linux.
+Once installed, Engine configuration can be changed. The main configuration property list:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>master.host key defines director host</p></li>
+<li><p>master.port key defines director porn</p></li>
+<li><p>module.path key defines CUDA modules directory path. Shared storage device with direct access for every CSyn engine and director must be used to save CUDA modules.</p></li>
+<li><p>db.path key defines database path</p></li>
+<li><p>device.major key defines GPU device major compute capability</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="windows-launch">
+<h2><strong>Windows launch</strong><a class="headerlink" href="#windows-launch" title="Permalink to this headline">¶</a></h2>
+<p>Engine startup option list for Windows machine:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>/registerService=name option register the application as a service</p></li>
+<li><p>/unregisterService option unregister the application as a service</p></li>
+<li><p>/displayName=name option specify a display name for the service (only with /registerService)</p></li>
+<li><p>/description=text option specify a description for the service (only with /registerService)</p></li>
+<li><p>/startup=automatic|manual option specify the startup mode for the service (only with /registerService)</p></li>
+<li><p>/gpuId=value option GPU id</p></li>
+<li><p>/port=value option engine service port</p></li>
+</ul>
+</div></blockquote>
+<p>For example next command will register Windows service engine0 with display name CsynEngine0. When service will be started it will use first host GPU to execute kernels and port 8090 to communicate with CSyn Executor.</p>
+<blockquote>
+<div><p>CSynEngine.exe /registerService=engine0 /displayName=CsynEngine0 /startup=automatic /gpuId=0 /port=8090</p>
+</div></blockquote>
+<p>For example next command will start CSyn engine. It will use first host GPU to execute kernels and port 8090 to communicate with CSyn Executor.</p>
+<blockquote>
+<div><p>CSynEngine.exe  /gpuId=0 /port=8090</p>
+</div></blockquote>
+</section>
+<section id="linux-launch">
+<h2><strong>Linux launch</strong><a class="headerlink" href="#linux-launch" title="Permalink to this headline">¶</a></h2>
+<p>Engine startup option list for Linux machine:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>–daemon run as a daemon</p></li>
+<li><p>–gpuId=value option GPU id</p></li>
+<li><p>–port=value option engine service port</p></li>
+</ul>
+</div></blockquote>
+<p>For example next command will start CSyn engine as daemon. It will use first host GPU to execute kernels and port 8090 to communicate with CSyn Executor.</p>
+<blockquote>
+<div><p>CSynEngine –daemon –gpuId=0 –port=8090</p>
+</div></blockquote>
+<p>For example next command will start CSyn engine. It will use first host GPU to execute kernels and port 8090 to communicate with CSyn Executor.</p>
+<blockquote>
+<div><p>CSynEngine  –gpuId=0 –port=8090</p>
+</div></blockquote>
+</section>
+<section id="task-execution">
+<h2><strong>Task Execution</strong><a class="headerlink" href="#task-execution" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>The following briefly describes of an Engine service tasks execution steps:</dt><dd><ul>
+<li><p>The CSyn Director checks the Engine service status</p></li>
+<li><p>If Engine service is available Executor submits request that contains list of tasks for execution</p></li>
+<li><p>The Engine accepts request, add it to request queue and notifies Execution manager</p></li>
+<li><p>Execution manager gets request from the request queue and perform next steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Download modules required to execute tasks from Director if they are not available</p></li>
+<li><p>Execute all request tasks on allocated GPU device</p></li>
+<li><p>Put list of results to response queue and notifies Response manager</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Response manager get tasks execution results list from the response queue and send response to Executor</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">CSyn User Guide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html"><strong>CSyn Overview</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Client.html"><strong>CSyn Client</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>CSyn Engine Service</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction"><strong>Introduction</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites"><strong>Prerequisites</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-and-configuration"><strong>Installation and Configuration</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-launch"><strong>Windows launch</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux-launch"><strong>Linux launch</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#task-execution"><strong>Task Execution</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Director.html"><strong>CSyn Director Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Executor.html"><strong>CSyn Executor Service</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Development.html"><strong>CSyn Module Development</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SystemLibrary.html"><strong>CSyn System Libraries</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CPPClient.html"><strong>CSyn C++ Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CShartClient.html"><strong>CSyn C# Client</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonClient.html"><strong>CSyn Python Client</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Client.html" title="previous chapter"><strong>CSyn Client</strong></a></li>
+      <li>Next: <a href="Director.html" title="next chapter"><strong>CSyn Director Service</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Calculation Synergy team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Engine.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

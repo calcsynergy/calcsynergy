@@ -21,7 +21,7 @@ It includes three different components in its architecture:
 - Engines services that run job tasks on the CSyn GPUs
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-See CSyn project user [guide](http://www.calcsynergy.com/html_user_guide/index.html) for more details.
+See CSyn project user [guide](/html_user_guide/index.html) for more details.
 #### Prerequisites
 To run Engine services CSyn requires to install CUDA 10.2 or higher.
 See CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html) for Windows and CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html) for Linux for more details.
@@ -33,11 +33,11 @@ To install CSyn system on your local machine follow the next steps:
 - Start one or more Executor services. To start Executor service on Windows use command: CSynEngine.exe  /port=8100
 - Downloads Engine archive and extract it content to your destination. Update Engine configuration file
 - Start one or more Engine services. To start Engine service on Windows use command: CSynEngine.exe  /gpuId=0 /port=8090
-See CSyn project user [guide](http://www.calcsynergy.com/html_user_guide/index.html) for more details.
+See CSyn project user [guide](/html_user_guide/index.html) for more details.
 #### Running the tests
 To run CSyn system tests on your local machine follow the next steps:
 - Downloads Client SDK archive and extract it content to your destination. CSyn provides C++, CShart and Python SDK
-- Create test application using SCyn SDK and run it. See CSyn project user [guide](http://www.calcsynergy.com/html_user_guide/index.html) for C++, CSharp and Python code examples
+- Create test application using SCyn SDK and run it. See CSyn project user [guide](/html_user_guide/index.html) for C++, CSharp and Python code examples
 ## Versioning
 Release 0.1.0 contains next archives:
 - Director binary archives for Windows and Linux

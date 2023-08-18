@@ -1,0 +1,54 @@
+===========================
+**CSyn Module Development**
+===========================
+
+   
+-------------------------
+**CUDA compiled assemly**
+-------------------------
+
+	CSyn supports two type of CUDA modutes:
+	
+		* CUDA compiled assemly in PTX code or binary cubin file that defines C++ CUDA kernels
+		* CUDA compiled fatCubin file that defines C++ CUDA kernels
+		
+	Both of these type of assemlies are output of an NVCC CUDA compiler (see `Compilation with NVCC <https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html>`_).
+	
+	CSyn runtime environment can execute any kernel function defined by these CUDA modutes as ``extern "C" __global__``.
+	
+	Following describe the kernel function execution step sequence:
+	
+		* allocate GPU memory requered by kernel parameters
+		* copy host data to GPU memory
+		* call the kernel function using grid and thread sizes provided by CSyn task or job
+		* copy GPU memory back to the host data
+		
+	Multiple tasks can be executed concurrently using CUDA streams for synchronization.
+
+----------------------
+**C++ shared library**
+----------------------
+
+	CSyn supports two type of C++ shared library:
+	
+		* C++ shared library that defines functions with GPU memory referenced parameters 
+		* C++ shared library that defines functions with host memory referenced parameters 
+		
+
+	CSyn runtime environment can execute any C++ shared library function that has next declaration:
+	
+		``void customFunction(size_t parametersNumber, void **parameters)``
+	
+	where 
+		parametersNumber - defines number of function parameters
+		parameters - array of pointers to parameter data to be passed to the function
+		
+	
+	Following describe the execution step sequence for function that required parameters referenced to GPU memory:
+	
+		* allocate GPU memory requered by function parameters
+		* copy host data to GPU memory
+		* call the kernel function
+		* copy GPU memory back to the host data
+		
+	

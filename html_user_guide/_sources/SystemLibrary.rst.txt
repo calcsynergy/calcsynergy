@@ -1,0 +1,69 @@
+=========================
+**CSyn System Libraries**
+=========================
+
+   
+----------------
+**CUDA BLAS**
+----------------
+	CUDA library for Basic Linear Algebra Subprograms implementation
+	CUDA BLAS implements next kernels:
+	
+		* Solve the triangular linear system with multiple right-hand-sides
+		* Multiply triangular matrix by triangular matrix
+		* Multiply symmetric matrix by symmetric matrix
+		* Multiply matrix by matrix
+		* Solve the triangular linear system with a single right-hand-side
+		* Multiply triangular matrix by vector
+		* Solve the triangular banded linear system with a single right-hand-side
+		* Multiply triangular banded matrix by vector
+		* Multiply symmetric matrix by vector
+		* Multiply symmetric banded matrix by vector
+		* Multiply matrix by vector
+		* Multiply banded matrix by vector
+		* Interchange the elements of two vectors
+		* Scale vector by the scalar
+		* Apply rotation matrix to vectors
+		* Compute the Euclidean norm of the vector
+		* Compute the dot product of two vectors
+		* Copy first vector into the second vector 
+		* Multiply the first vector by the scalar and adds it to the second vector
+		* Sum the absolute values of the elements of vector
+		
+----------------
+**CUDA SOLVER**
+----------------
+	CUDA library for decompositions and linear system solutions implementation
+	CUDA SOLVER implements next kernels:
+	
+		* Computes the Cholesky factorization of a Hermitian positive-definite matrix 
+		* Solves a system of linear equations A * X = B where A Cholesky factorized matrix
+		* Computes the inverse of a Cholesky factorized matrix
+		* Computes the LU factorization of a m x n matrix
+		* Solves a system of linear equations A * X = B where A LU-factored matrix
+		* Computes the QR factorization of a m x n matrix
+		* Computes the Bunch-Kaufman factorization of symmetric indefinite matrix
+		* Computes eigenvalues and eigenvectors of a symmetric matrix
+		* Computes eigenvalues and eigenvectors of a symmetric double matrix-pair
+
+-------------------
+**Sorting network**
+-------------------
+	Sorting network implements next kernels:
+	
+		* Odd even merge sort double value
+		* Odd even merge sort float value
+		* Odd even merge sort long value
+		* Odd even merge sort integer value
+		* Odd even merge sort double key and integer value
+		* Odd even merge sort float key and integer value
+		* Odd even merge sort long key and integer value
+		* Odd even merge sort integer key and integer value
+		* Bitonic sort double value
+		* Bitonic sort float value
+		* Bitonic sort long value
+		* Bitonic sort integer value
+		* Bitonic sort double key and integer value
+		* Bitonic sort float key and integer value
+		* Bitonic sort long key and integer value
+		* Bitonic sort integer key and integer value

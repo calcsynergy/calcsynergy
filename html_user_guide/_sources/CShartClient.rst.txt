@@ -1,0 +1,46 @@
+===================
+**CSyn C# Client**
+===================
+
+
+----------------
+**Introduction**
+----------------
+
+CSyn C# client an archive file is available for download to a target machine. Archive CSynCSharpClient.dll file contains required classes and variables.
+
+--------------------------------
+**Module and Kernel management**
+--------------------------------
+
+
+CSyn C# client provides set of functions to manage custom modules and kernels. This sample code shows how to remove existing module and create new one:
+
+.. raw:: html
+	:file: module_manager_cs.html
+
+This sample code shows how to create kernel:
+
+.. raw:: html
+	:file: kernel_manager_cs.html
+
+
+
+-----------------
+**Job execution**
+-----------------
+
+
+CSyn C# client provides set of functions to get the kernel object, create job and execute it. This sample code shows how to create and execute job:
+
+.. raw:: html
+	:file: job_run_cs.html
+	
+--------------------------------
+**Job execution asynchronously**
+--------------------------------
+
+CSyn C# client provides set of functions to get the kernel object, create job and execute it asynchronously. This sample code shows  how to create and execute job asynchronously:
+
+.. raw:: html
+	:file: job_run_async_cs.html

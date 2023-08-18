@@ -1,0 +1,104 @@
+=========================
+**CSyn Director Service**
+=========================
+
+
+----------------
+**Introduction**
+----------------
+
+Director controls CSyn runtime environment and executes client requests.  Director implements next objectives:
+
+	* monitor CSyn runtime environment executors status
+	* monitor CSyn runtime environment engines status
+	* manage CSyn database and resources
+	* balance CSyn runtime environment executors load
+
+Executor sends status information requets (heartbeats) to Director. The executor will be activated and included in the list of available executors, as soon as it will start to send heartbeats to Director.
+If heartbeats have been missed the Director will exclude Executor from the list available executors and set it as deactivated.
+
+Engine sends status information requets (heartbeats) to Director. The engine will be activated and included in the list of available engines, as soon as it will start to send heartbeats to Director.
+If heartbeats have been missed the Director will exclude Engine from the list available engines and set it as deactivated. If the list of engines have been changed Director will syncronize it with all available executors. If list of available engines is empty the job execute request submitted by client will be failed.
+
+----------------------------------
+**Installation and Configuration**
+----------------------------------
+
+For Windows machine, a Windows installation executable is available. For Linux, an archive file is available for download to a target machine.
+Engine could be started as service for Windows and daemon process on Linux
+Once installed, The CSyn Director configuration can be changed. The main configuration property list:
+
+	* master.client.port key defines Director network port to communicate with client applications
+	* master.executor.port key defines Director network port to communicate with list of available executors and engines
+	* heartbeat.timeout key defines maximum heartbeat timeout
+	* module.path key defines custom CUDA modules directory path. Shared storage device with direct access for every CSyn engine and director must be used to save CUDA modules
+	* web.path key defines CSyn operating console directory path
+	* db.path key defines database path
+	* task.per.device key defines max number of task per request
+	* globalmemory.per.device key defines max allowed global memory per job
+	* max.job.run.time key defines max job run time
+	* max.jobresult.cashe.time key defines max job results cashe time
+	* max.jobstatus.cashe.time key defines max job status cashe time
+	* device.major key defines GPU device major compute capability
+	* security.scheme key defines security scheme
+	* security.basic.username key defines admin role user name
+	* security.basic.password key defines admin role password
+	
+----------------------------------
+**Windows launch**
+----------------------------------
+
+Director startup option list for Windows machine:
+	
+	* /registerService=name option register the application as a service
+	* /unregisterService option unregister the application as a service
+	* /displayName=name option specify a display name for the service (only with /registerService)
+	* /description=text option specify a description for the service (only with /registerService)
+	* /startup=automatic|manual option specify the startup mode for the service (only with /registerService)
+	
+For example next command will register Windows service director with display name CsynDirector. 
+
+	CSynService.exe /registerService=director /displayName=CsynDirector /startup=automatic
+	
+For example next command will start CSyn director.
+
+	CSynService.exe
+	
+----------------------------------
+**Linux launch**
+----------------------------------
+
+Engine startup option for Linux machine:
+	
+	* --daemon run as a daemon
+	
+For example next command will start CSyn director as daemon
+
+	CSynService --daemon
+	
+For example next command will start CSyn director.
+
+	CSynService
+	
+------------------------------------
+**Authentication and Authorization**
+------------------------------------
+
+
+CSyn authorization model includes next roles: 
+	* Client – this role allows CSyn users load Module and Kernel from system and execute Jobs
+	* Admin – this role allows CSyn users load Module and Kernel from system, execute Jobs, create new Module and Kernel and remove existing Module and Kernel from system
+
+Authentication is required for users with Admin role. CSyn Director supports simple authentication mechanism based on username and password. 
+
+---------------------------------------------
+**Job execution and Engines Balance Loading**
+---------------------------------------------
+
+CSyn Director takes a central role in job execution process and supports executors load balancing. CSyn Director maintains the list of available executors by checking in the background for their respective status. To execute the job client application send get executor request to CSyn Director. CSyn Director select next executor from the list of available executors and reply it information back to client application. The client application will process job using the executor information it received. Director load balancing policy is based on assumption that all CSyn executors are equal.
+
+-----------------------
+**Database Management**
+-----------------------
+
+CSyn Director uses a SQLite database to store data such as Module and Kernel information. Director configuration file includes the database path and supports Module and Kernel load, create and remove operations.
