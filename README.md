@@ -21,7 +21,7 @@ It includes three different components in its architecture:
 - Engines services that run job tasks on the CSyn GPUs
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-See CSyn project user <a href="file:///html_user_guide/index.html">guide</a> for more details.
+See CSyn project user [guide]/html_user_guide/index.html for more details.
 #### Prerequisites
 To run Engine services CSyn requires to install CUDA 10.2 or higher.
 See CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html) for Windows and CUDA installation instructions [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html) for Linux for more details.
